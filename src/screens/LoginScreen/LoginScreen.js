@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, Dimensions} from 'react-native';
+import {StyleSheet, Text, View, ToastAndroid} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Input, Button, Image} from 'react-native-elements';
 import {useForm, Controller} from 'react-hook-form';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
-import FeatherIcon from 'react-native-vector-icons/Feather';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import SQLite from 'react-native-sqlite-storage';
 
@@ -66,6 +65,14 @@ const LoginScreen = ({navigation}) => {
 
             storeData(accountsArray);
             navigation.replace('Home');
+          } else {
+            ToastAndroid.showWithGravityAndOffset(
+              'Invalid Credentials!',
+              ToastAndroid.LONG,
+              ToastAndroid.TOP,
+              0,
+              20,
+            );
           }
         },
       );

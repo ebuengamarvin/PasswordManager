@@ -1,9 +1,7 @@
-import React, {useState, useEffect, useLayoutEffect} from 'react';
-import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
-import {Avatar} from 'react-native-elements';
+import React, {useState, useEffect} from 'react';
+import {View, StyleSheet, FlatList, ToastAndroid} from 'react-native';
 import SQLite from 'react-native-sqlite-storage';
 import CustomCard from '../../components/CustomCard';
-import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 
 const db = SQLite.openDatabase({
   name: 'PasswordManager',
@@ -41,6 +39,14 @@ const HomeScreen = ({navigation}) => {
         }
       });
     });
+
+    ToastAndroid.showWithGravityAndOffset(
+      'Deleted Successfully!',
+      ToastAndroid.LONG,
+      ToastAndroid.TOP,
+      0,
+      20,
+    );
   };
 
   return (

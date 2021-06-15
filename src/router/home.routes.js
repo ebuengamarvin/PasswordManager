@@ -1,11 +1,9 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import CreateScreen from '../screens/CreateScreen/CreateScreen';
 import FoundationIcons from 'react-native-vector-icons/Foundation';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 
 const Tab = createBottomTabNavigator();
 
@@ -34,5 +32,3 @@ const HomeRoutes = ({navigation}) => {
 };
 
 export default HomeRoutes;
-
-const styles = StyleSheet.create({});

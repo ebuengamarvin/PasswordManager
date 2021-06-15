@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, TextInput} from 'react-native';
+import {StyleSheet, Text, View, ToastAndroid} from 'react-native';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import FoundationIcon from 'react-native-vector-icons/Foundation';
 import FeatherIcon from 'react-native-vector-icons/Feather';
@@ -36,6 +36,14 @@ const UpdateScreen = ({navigation, route}) => {
         },
       );
     });
+
+    ToastAndroid.showWithGravityAndOffset(
+      'Updated Successfully!',
+      ToastAndroid.LONG,
+      ToastAndroid.TOP,
+      0,
+      20,
+    );
   };
 
   return (

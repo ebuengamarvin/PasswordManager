@@ -2,11 +2,9 @@ import React from 'react';
 import {
   StyleSheet,
   Text,
-  View,
   KeyboardAvoidingView,
-  TouchableWithoutFeedback,
   Platform,
-  Keyboard,
+  ToastAndroid,
 } from 'react-native';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import FoundationIcon from 'react-native-vector-icons/Foundation';
@@ -44,6 +42,14 @@ const CreateScreen = ({navigation, route}) => {
         },
       );
     });
+
+    ToastAndroid.showWithGravityAndOffset(
+      'Created Successfully!',
+      ToastAndroid.LONG,
+      ToastAndroid.TOP,
+      0,
+      20,
+    );
   };
 
   return (
