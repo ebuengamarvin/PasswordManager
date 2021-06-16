@@ -27,8 +27,14 @@ const UpdateScreen = ({navigation, route}) => {
   const onSubmit = data => {
     db.transaction(tx => {
       tx.executeSql(
-        'UPDATE apps SET name=?, website=?, username=?, password=?',
-        [data.name, data.website, data.username, data.password],
+        'UPDATE apps SET name=?, website=?, username=?, password=? WHERE id=?',
+        [
+          data.name,
+          data.website,
+          data.username,
+          data.password,
+          route.params.id,
+        ],
         (tx, results) => {
           if (results.rowsAffected > 0) {
             navigation.replace('Home');
