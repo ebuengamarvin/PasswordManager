@@ -5,6 +5,8 @@ import {
   KeyboardAvoidingView,
   Platform,
   ToastAndroid,
+  Image,
+  Dimensions,
 } from 'react-native';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import FoundationIcon from 'react-native-vector-icons/Foundation';
@@ -57,6 +59,17 @@ const CreateScreen = ({navigation, route}) => {
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={60}>
+      <Image
+        source={require('../../assets/images/marvin.jpg')}
+        blurRadius={10}
+        style={[
+          StyleSheet.absoluteFillObject,
+          {
+            height: Dimensions.get('window').height,
+            width: Dimensions.get('window').width,
+          },
+        ]}
+      />
       <Controller
         control={control}
         render={({field: {onChange, onBlur, value}}) => (

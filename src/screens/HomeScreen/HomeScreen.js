@@ -16,6 +16,8 @@ const db = SQLite.openDatabase({
   createFromLocation: '~mrx.db',
 });
 
+const AnimatedFlatlist = Animated.createAnimatedComponent(FlatList);
+
 const HomeScreen = ({navigation}) => {
   const [accounts, setAccounts] = useState([]);
 
@@ -57,14 +59,16 @@ const HomeScreen = ({navigation}) => {
     );
   };
 
-  const scrollY = useRef(new Animated.Value(0)).current;
-  const ITEM_SIZE = 70 * 3;
+  const y = new Animated.Value(0);
+  const onScroll = Animated.event([{nativeEvent: {contentOffset: {y: y}}}], {
+    useNativeDriver: true,
+  });
 
   return (
     <View style={styles.container}>
       <Image
         source={require('../../assets/images/marvin.jpg')}
-        blurRadius={20}
+        blurRadius={10}
         style={[
           StyleSheet.absoluteFillObject,
           {
@@ -73,40 +77,38 @@ const HomeScreen = ({navigation}) => {
           },
         ]}
       />
-      <Animated.FlatList
+      <AnimatedFlatlist
         data={accounts}
-        onScroll={Animated.event(
-          [{nativeEvent: {contentOffset: {y: scrollY}}}],
-          {useNativeDriver: true},
-        )}
         keyExtractor={item => item.id}
+        scrollEventThrottle={16}
+        {...{onScroll}}
         renderItem={({item, index}) => {
-          const inputRange = [
-            -1,
-            0,
-            ITEM_SIZE * index,
-            ITEM_SIZE * (index + 2),
-          ];
-
-          const opacityInputRange = [
-            -1,
-            0,
-            ITEM_SIZE * index,
-            ITEM_SIZE * (index + 0.5),
-          ];
-
-          const scale = scrollY.interpolate({
-            inputRange,
-            outputRange: [1, 1, 1, 0],
+          const position = Animated.subtract(index * 220, y);
+          const isDisappearing = -220;
+          const isTop = 0;
+          const isBottom = 550 - 220;
+          const isAppearing = 550;
+          const scale = position.interpolate({
+            inputRange: [isDisappearing, isTop, isBottom, isAppearing],
+            outputRange: [0.5, 1, 1, 0.5],
+            extrapolate: 'clamp',
           });
-
-          const opacity = scrollY.interpolate({
-            inputRange: opacityInputRange,
-            outputRange: [1, 1, 1, 0],
+          const opacity = position.interpolate({
+            inputRange: [isDisappearing, isTop, isBottom, isAppearing],
+            outputRange: [0.1, 1, 0.9, 0.1],
           });
+          const translateY = Animated.add(
+            y,
+            y.interpolate({
+              inputRange: [0, 0.00001 + index * 220],
+              outputRange: [0, -index * 220],
+              extrapolateRight: 'clamp',
+            }),
+          );
 
           return (
-            <Animated.View style={{transform: [{scale}], opacity}}>
+            <Animated.View
+              style={{opacity, transform: [{translateY}, {scale}]}}>
               <CustomCard
                 id={item.id}
                 name={item.name}
@@ -119,6 +121,7 @@ const HomeScreen = ({navigation}) => {
           );
         }}
       />
+      <View style={{height: 17}}></View>
     </View>
   );
 };
