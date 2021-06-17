@@ -1,9 +1,10 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import CreateScreen from '../screens/CreateScreen/CreateScreen';
 import FoundationIcons from 'react-native-vector-icons/Foundation';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import HomeScreen from '../screens/HomeScreen/HomeScreen';
+import HomeGroupRoutes from './homeGroup.routes';
 
 const Tab = createBottomTabNavigator();
 
@@ -25,7 +26,7 @@ const HomeRoutes = ({navigation}) => {
         inactiveTintColor: 'gray',
         showLabel: false,
       }}>
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Home" component={HomeGroupRoutes} />
       <Tab.Screen name="Create" component={CreateScreen} />
     </Tab.Navigator>
   );

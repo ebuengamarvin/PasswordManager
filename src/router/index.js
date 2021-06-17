@@ -22,7 +22,13 @@ const removeStorage = async () => {
 const Router = props => {
   return (
     <RootStack.Navigator iinitialRouteName="Login">
-      <RootStack.Screen name="Login" component={LoginScreen} />
+      <RootStack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
       <RootStack.Screen
         name="Home"
         component={HomeNavigator}
@@ -51,7 +57,6 @@ const Router = props => {
           ),
         }}
       />
-      <RootStack.Screen name="Update" component={UpdateScreen} />
     </RootStack.Navigator>
   );
 };

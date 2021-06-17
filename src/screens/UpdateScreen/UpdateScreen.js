@@ -1,5 +1,12 @@
 import React from 'react';
-import {StyleSheet, Text, View, ToastAndroid} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ToastAndroid,
+  Image,
+  Dimensions,
+} from 'react-native';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import FoundationIcon from 'react-native-vector-icons/Foundation';
 import FeatherIcon from 'react-native-vector-icons/Feather';
@@ -54,6 +61,17 @@ const UpdateScreen = ({navigation, route}) => {
 
   return (
     <View style={styles.container}>
+      <Image
+        source={require('../../assets/images/marvin.jpg')}
+        blurRadius={12}
+        style={[
+          StyleSheet.absoluteFillObject,
+          {
+            height: Dimensions.get('window').height,
+            width: Dimensions.get('window').width,
+          },
+        ]}
+      />
       <Controller
         control={control}
         render={({field: {onChange, onBlur, value}}) => (

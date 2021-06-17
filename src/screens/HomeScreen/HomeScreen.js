@@ -68,7 +68,7 @@ const HomeScreen = ({navigation}) => {
     <View style={styles.container}>
       <Image
         source={require('../../assets/images/marvin.jpg')}
-        blurRadius={10}
+        blurRadius={12}
         style={[
           StyleSheet.absoluteFillObject,
           {

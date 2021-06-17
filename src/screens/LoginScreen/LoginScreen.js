@@ -1,8 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, ToastAndroid} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ToastAndroid,
+  Dimensions,
+  Image,
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {Input, Button, Image} from 'react-native-elements';
+import {Input, Button, Image as ImageNative} from 'react-native-elements';
 import {useForm, Controller} from 'react-hook-form';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
@@ -81,58 +88,65 @@ const LoginScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.imageView}>
-        <Image
-          source={require('../../assets/images/mrx.jpg')}
-          style={styles.image}
+      <Image
+        source={require('../../assets/images/marvin.jpg')}
+        blurRadius={12}
+        style={[
+          StyleSheet.absoluteFillObject,
+          {
+            height: Dimensions.get('window').height,
+            width: Dimensions.get('window').width,
+          },
+        ]}
+      />
+      <View style={styles.input}>
+        <Controller
+          control={control}
+          render={({field: {onChange, onBlur, value}}) => (
+            <Input
+              placeholder="Username..."
+              leftIcon={<Ionicons name="person" size={24} />}
+              onBlur={onBlur}
+              onChangeText={value => onChange(value)}
+              value={value}
+              errorStyle={{color: 'red'}}
+              errorMessage={
+                errors.username && <Text>This field is required.</Text>
+              }
+            />
+          )}
+          name="username"
+          rules={{required: true}}
+          defaultValue=""
+        />
+        <Controller
+          control={control}
+          render={({field: {onChange, onBlur, value}}) => (
+            <Input
+              placeholder="Password..."
+              leftIcon={<EntypoIcon name="key" size={24} />}
+              secureTextEntry={true}
+              onBlur={onBlur}
+              onChangeText={value => onChange(value)}
+              value={value}
+              errorStyle={{color: 'red'}}
+              errorMessage={
+                errors.password && <Text>This field is required.</Text>
+              }
+            />
+          )}
+          name="password"
+          rules={{required: true}}
+          defaultValue=""
+        />
+        <Button
+          onPress={handleSubmit(onSubmit)}
+          icon={<AntDesignIcon name="login" size={15} color="white" />}
+          title="Login"
+          titleStyle={styles.send}
+          containerStyle={styles.sendContainer}
         />
       </View>
-      <Controller
-        control={control}
-        render={({field: {onChange, onBlur, value}}) => (
-          <Input
-            placeholder="Username..."
-            leftIcon={<Ionicons name="person" size={24} />}
-            onBlur={onBlur}
-            onChangeText={value => onChange(value)}
-            value={value}
-            errorStyle={{color: 'red'}}
-            errorMessage={
-              errors.username && <Text>This field is required.</Text>
-            }
-          />
-        )}
-        name="username"
-        rules={{required: true}}
-        defaultValue=""
-      />
-      <Controller
-        control={control}
-        render={({field: {onChange, onBlur, value}}) => (
-          <Input
-            placeholder="Password..."
-            leftIcon={<EntypoIcon name="key" size={24} />}
-            secureTextEntry={true}
-            onBlur={onBlur}
-            onChangeText={value => onChange(value)}
-            value={value}
-            errorStyle={{color: 'red'}}
-            errorMessage={
-              errors.password && <Text>This field is required.</Text>
-            }
-          />
-        )}
-        name="password"
-        rules={{required: true}}
-        defaultValue=""
-      />
-      <Button
-        onPress={handleSubmit(onSubmit)}
-        icon={<AntDesignIcon name="login" size={15} color="white" />}
-        title="Login"
-        titleStyle={styles.send}
-        containerStyle={styles.sendContainer}
-      />
     </View>
   );
 };
@@ -143,13 +157,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    margin: 20,
   },
-  imageView: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    elevation: 5,
-    marginBottom: 20,
+  input: {
+    margin: 15,
+    padding: 25,
   },
   image: {
     borderRadius: 100,

@@ -61,7 +61,7 @@ const CreateScreen = ({navigation, route}) => {
       keyboardVerticalOffset={60}>
       <Image
         source={require('../../assets/images/marvin.jpg')}
-        blurRadius={10}
+        blurRadius={12}
         style={[
           StyleSheet.absoluteFillObject,
           {
