@@ -1,5 +1,13 @@
-import React, {useState, useEffect} from 'react';
-import {View, StyleSheet, FlatList, ToastAndroid} from 'react-native';
+import React, {useState, useEffect, useRef} from 'react';
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  ToastAndroid,
+  Image,
+  Animated,
+  Dimensions,
+} from 'react-native';
 import SQLite from 'react-native-sqlite-storage';
 import CustomCard from '../../components/CustomCard';
 
@@ -49,22 +57,67 @@ const HomeScreen = ({navigation}) => {
     );
   };
 
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const ITEM_SIZE = 70 * 3;
+
   return (
     <View style={styles.container}>
-      <FlatList
+      <Image
+        source={require('../../assets/images/marvin.jpg')}
+        blurRadius={20}
+        style={[
+          StyleSheet.absoluteFillObject,
+          {
+            height: Dimensions.get('window').height,
+            width: Dimensions.get('window').width,
+          },
+        ]}
+      />
+      <Animated.FlatList
         data={accounts}
-        scrollable
-        keyExtractor={item => item.id}
-        renderItem={({item}) => (
-          <CustomCard
-            id={item.id}
-            name={item.name}
-            website={item.website}
-            username={item.username}
-            password={item.password}
-            deleteAccount={deleteAccount}
-          />
+        onScroll={Animated.event(
+          [{nativeEvent: {contentOffset: {y: scrollY}}}],
+          {useNativeDriver: true},
         )}
+        keyExtractor={item => item.id}
+        renderItem={({item, index}) => {
+          const inputRange = [
+            -1,
+            0,
+            ITEM_SIZE * index,
+            ITEM_SIZE * (index + 2),
+          ];
+
+          const opacityInputRange = [
+            -1,
+            0,
+            ITEM_SIZE * index,
+            ITEM_SIZE * (index + 0.5),
+          ];
+
+          const scale = scrollY.interpolate({
+            inputRange,
+            outputRange: [1, 1, 1, 0],
+          });
+
+          const opacity = scrollY.interpolate({
+            inputRange: opacityInputRange,
+            outputRange: [1, 1, 1, 0],
+          });
+
+          return (
+            <Animated.View style={{transform: [{scale}], opacity}}>
+              <CustomCard
+                id={item.id}
+                name={item.name}
+                website={item.website}
+                username={item.username}
+                password={item.password}
+                deleteAccount={deleteAccount}
+              />
+            </Animated.View>
+          );
+        }}
       />
     </View>
   );
